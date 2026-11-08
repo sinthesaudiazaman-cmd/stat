@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Comprehensive Academic Course & Exam Preparation Portal for STAT 2251: Inferential Statistics for Development Studies. Includes intuitive textbook explanations, class handnotes, verified YouTube video lectures, and graded 2/5/10 mark exam questions with solutions.">
+  <title>STAT 2251: Inferential Statistics for Development Studies | Complete Course Portal</title>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- KaTeX for High-Fidelity Mathematical Typesetting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <!-- Portal Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Overlay for Mobile Sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app-container" id="app">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="brand-badge">STAT 2251 • Core 2.0</span>
+        <div class="brand-title">Inferential Statistics</div>
+        <div class="brand-subtitle">Development Studies • 2nd Year, 2nd Term</div>
+      </div>
+
+      <!-- Course Progress Summary Widget -->
+      <div class="course-progress-container">
+        <div class="progress-header">
+          <span>Course Completion</span>
+          <span id="overallProgressPercent">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="overallProgressBar" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Scrollable Navigation Items -->
+      <nav class="sidebar-nav" id="sidebarNav">
+        <!-- Rendered dynamically by js/app.js -->
+      </nav>
+
+      <!-- Sidebar Utilities & Quick Action Links -->
+      <div class="sidebar-footer">
+        <button class="btn-sidebar-action" id="btnOpenTables">
+          <span>📐 Statistical Tables (Z, t, χ², F)</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-wrapper">
+      <!-- Sticky Top Navbar -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <button class="btn-toggle-sidebar" id="btnToggleSidebar" aria-label="Toggle navigation menu">
+            ☰
+          </button>
+          <div class="search-box-wrapper">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              class="search-input" 
+              id="globalSearchInput" 
+              placeholder="Search chapters, formulas, 2/5/10M questions... (Ctrl + /)" 
+              autocomplete="off"
+            >
+            <!-- Dropdown for live search results -->
+            <div id="searchResultsDropdown" class="search-results-dropdown" style="display: none;"></div>
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <!-- Dark / Light Theme Toggle -->
+          <button class="btn-icon" id="btnThemeToggle" title="Toggle Dark/Light Mode" aria-label="Toggle theme">
+            <span id="themeIcon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            </span>
+          </button>
+
+          <!-- Model Tests Quick Link -->
+          <button class="btn-primary-sm" onclick="window.STAT_APP.switchView('model-tests')">
+            <span>🎓 Model Tests</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dynamic Page Container -->
+      <main class="page-container" id="mainContent">
+        <!-- Content will be rendered here by js/app.js -->
+      </main>
+    </div>
+  </div>
+
+  <!-- Statistical Distribution Reference Tables Modal -->
+  <div class="modal-overlay" id="tablesModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">📐 Statistical Distribution Tables & Critical Values</div>
+        <button class="modal-close-btn" id="btnCloseTablesModal" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body" id="tablesModalBody">
+        <!-- Injected dynamically by js/app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Chapter Notes Modal -->
+  <div class="modal-overlay" id="notesModal">
+    <div class="modal-card" style="max-width: 600px;">
+      <div class="modal-header">
+        <div class="modal-title" id="notesModalTitle">Chapter Personal Notes</div>
+        <button class="modal-close-btn" id="btnCloseNotesModal" aria-label="Close modal">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 8px;">
+          Type your personal insights, mnemonic tricks, or teacher's special exam remarks here. Notes are saved automatically to your browser storage.
+        </p>
+        <textarea class="notes-textarea" id="chapterNotesTextarea" placeholder="Write your chapter notes here..."></textarea>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px;">
+          <button class="btn-sidebar-action" style="width: auto; color: var(--danger);" id="btnClearNotes">
+            Clear Notes
+          </button>
+          <button class="btn-primary-sm" id="btnSaveNotes">
+            Save Notes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toastNotification" class="toast-notification"></div>
+
+  <!-- Course Data Scripts (Loaded in Logical Dependency Order) -->
+  <script src="js/chapters-1-3.js"></script>
+  <script src="js/chapters-4-6.js"></script>
+  <script src="js/chapters-7-10.js"></script>
+  <script src="js/model-tests.js"></script>
+  <script src="js/data.js"></script>
+
+  <!-- Main Controller Application Script -->
+  <script src="js/app.js"></script>
+</body>
+</html>
